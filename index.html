@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+    <style>
+        #nevBar{
+            display: flex;
+            justify-content: space-between;
+            text-decoration: none;
+            padding: 5px;
+            background-color: bisque;
+        }
+        #signupSection{
+           padding: 20px;
+           background-color: rgb(218, 161, 87);
+           margin-top: 30px;
+        }
+    </style>
+  </head>
+  <body>
+      <div id="nevBar">
+        <a href="">News app</a>
+        <a href="">Sign Up</a>
+        <a href="./worldNews.html">world News</a>
+      </div>
+  </body>
+   <div id="signupSection">
+     <h1>sign up here</h1>
+     <input type="text" placeholder="enter your name" id="user_name"> <br><br>
+     <input type="text" placeholder="enter your email" id="user_email"><br><br>
+     <input type="text" placeholder="enter your image url" id="user_pic"><br><br>
+     <select name="" id="user_country"><br><br>
+        <option value="India">India</option>
+        <option value="China">China</option>
+        <option value="Newzeland">Newzeland</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+     </select><br><br>
+     <button onclick="myfun()">submit</button>
+   </div>
+</html>
+<script>
+    function myfun(){
+        let obj={
+            name:document.getElementById("user_name").value,
+            email:document.getElementById("user_email").value,
+            image:document.getElementById("user_pic").value,
+            country:document.getElementById("user_country").value
+        }
+        localStorage.setItem("todayData",JSON.stringify(obj));
+    }
+</script>

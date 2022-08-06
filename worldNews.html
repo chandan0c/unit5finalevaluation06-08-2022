@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World News</title>
+  </head>
+  <style>
+    #nevbar{
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        background-color: rgb(214, 142, 47);
+    }
+    #nevbar div button{
+        margin-right: 15px;
+    }
+    #container{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+    }
+    #container #sideBar{
+        grid-column: 1/2;
+    }
+    #container #main{
+        grid-column: 2/5;
+    }
+    #main div{
+        padding: 5px;
+        border: 1px solid black;
+        margin: 5px;
+    }
+  </style>
+  <body>
+    <div id="nevbar">
+        <input type="text" placeholder="search the news" id="search_box">
+        <div>
+            <button id="in" onclick="init()" value="in">India</button>
+            <button id="ch" onclick="init()" value="ch">China</button>
+            <button id="nz" onclick="init()" value="nz">Newzeland</button>
+            <button id="us" onclick="init()" value="us">USA</button>
+            <button id="uk" onclick="init()" value="uk">UK</button>
+        </div>
+    </div>
+    <div id="container">
+        <div id="sideBar"></div>
+        <div id="main"></div>
+    </div>
+  </body>
+</html>
+<script>
+    function sidebarFun(){
+        let sidebar=document.getElementById("sideBar");
+        sidebar.innerText="";
+        let user=JSON.parse(localStorage.getItem("todayData"));
+        console.log(user);
+        let image=document.createElement("img");
+        image.src=user.image;
+        let name=document.createElement("p");
+        name.innerText=user.name;
+        let email=document.createElement("p");
+        email.innerHTML=user.email;
+        let country=document.createElement("p");
+        country.innerText=user.country;
+        sidebar.append(image,name,email,country);
+    }
+     sidebarFun()
+     let country=JSON.parse(localStorage.getItem("todayData"))
+     let countrycode=country.country;
+     let end="";
+     if(countrycode=="Newzeland"){
+        end="nz"
+     }
+     if(countrycode=="India"){
+        end="in"
+     }
+     if(countrycode=="China"){
+        end="ch"
+     }
+     if(countrycode=="USA"){
+        end="us"
+     }
+     if(countrycode=="UK"){
+        end="uk"
+     }
+    async function mainFun(){
+        let url=`https://masai-mock-api.herokuapp.com/news/top-headlines?country=${end}`;
+        let main=document.getElementById("main");
+        main.innerText="";
+        let data=await fetch(url);
+        let res=await data.json();
+        console.log(res.articles)
+        let articles= res.articles;
+        articles.forEach(article => {
+            let div=document.createElement("div");
+            let author=document.createElement("p");
+            author.innerText="author : "+article.author;
+            let content=document.createElement("p");
+            content.innerText="article : "+article.content;
+            let description=document.createElement("p");
+            description.innerText="description : "+article.description;
+            let button=document.createElement("button");
+            button.innerText="details news"
+            div.append(author,content,description,button)
+            main.append(div)
+        });
+    }
+    mainFun();
+    async function init(){
+        let end=event.target.value;
+        console.log(end);
+        let url=`https://masai-mock-api.herokuapp.com/news/top-headlines?country=${end}`;
+
+        let main=document.getElementById("main");
+        main.innerText="";
+        let data=await fetch(url);
+        let res=await data.json();
+        console.log(res.articles)
+        let articles= res.articles;
+        articles.forEach(article => {
+            let div=document.createElement("div");
+            let author=document.createElement("p");
+            author.innerText="author : "+article.author;
+            let content=document.createElement("p");
+            content.innerText="article : "+article.content;
+            let description=document.createElement("p");
+            description.innerText="description : "+article.description;
+            let button=document.createElement("button");
+            button.innerText="details news"
+            div.append(author,content,description,button)
+            main.append(div)
+        });
+    }
+    const elem = document.getElementById("search_box");
+
+    elem.addEventListener("keypress", (event)=> {
+    if (event.keyCode === 13) { // key code of the keybord key
+      event.preventDefault();
+	  let search=event.target.value;
+      let url=`https://masai-mock-api.herokuapp.com/news?q=${search}`;
+      searchData()
+      async function searchData(){
+        let main=document.getElementById("main");
+        main.innerText="";
+        let data=await fetch(url);
+        let res=await data.json();
+        console.log(res.articles)
+        let articles= res.articles;
+        articles.forEach(article => {
+            let div=document.createElement("div");
+            let author=document.createElement("p");
+            author.innerText="author : "+article.author;
+            let content=document.createElement("p");
+            content.innerText="article : "+article.content;
+            let description=document.createElement("p");
+            description.innerText="description : "+article.description;
+            let button=document.createElement("button");
+            button.innerText="details news"
+            div.append(author,content,description,button)
+            main.append(div)
+        });
+      }
+    }
+    });
+</script>
+

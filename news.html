@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detailed News</title>
+  </head>
+  <body>
+    <div id="container">
+        <div id="sideBar"></div>
+        <div id="main"></div>
+    </div>
+  </body>
+</html>
+<script>
+    function sidebarFun(){
+        let sidebar=document.getElementById("sideBar");
+        sidebar.innerText="";
+        let user=JSON.parse(localStorage.getItem("todayData"));
+        console.log(user);
+        let image=document.createElement("img");
+        image.src=user.image;
+        let name=document.createElement("p");
+        name.innerText=user.name;
+        let email=document.createElement("p");
+        email.innerHTML=user.email;
+        let country=document.createElement("p");
+        country.innerText=user.country;
+        sidebar.append(image,name,email,country);
+    }
+     sidebarFun()
+</script>
